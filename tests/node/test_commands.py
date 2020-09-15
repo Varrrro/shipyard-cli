@@ -21,7 +21,6 @@ class MockService():
             'name': 'Test1',
             'ip': '1.1.1.1',
             'ssh_user': 'Test1',
-            'ssh_pass': 'Test1',
             'tasks': [
                 {
                     '_id': ObjectId(),
@@ -40,8 +39,7 @@ class MockService():
             '_id': ObjectId(),
             'name': 'Test2',
             'ip': '2.2.2.2',
-            'ssh_user': 'Test2',
-            'ssh_pass': 'Test2'
+            'ssh_user': 'Test2'
         }
     ], many=True)
 
@@ -57,7 +55,7 @@ class MockService():
                 return node
         raise StatusError('Node not found.')
 
-    def create(self, node: Node) -> str:
+    def create(self, node: Node, ssh_user: str, ssh_pass: str) -> str:
         for test_node in self.test_nodes:
             if test_node.name == node.name:
                 raise StatusError('Name already present.')
@@ -114,7 +112,7 @@ class TestCommands(unittest.TestCase):
     def test_create(self):
         result = self.runner.invoke(
             node,
-            ['add', 'New', '0.0.0.0'],
+            ['add', 'New', '0.0.0.0', '4'],
             input='test\ntest\ntest',
             obj=self.config
         )
@@ -122,31 +120,11 @@ class TestCommands(unittest.TestCase):
 
         result = self.runner.invoke(
             node,
-            ['add', 'Test1', '0.0.0.0'],
+            ['add', 'Test1', '0.0.0.0', '4'],
             input='test\ntest\ntest',
             obj=self.config
         )
         self.assertIn('Unable to add new node', result.output)
-
-    def test_change_ssh(self):
-        result = self.runner.invoke(
-            node,
-            ['change-ssh', str(MockService.test_nodes[0]._id)],
-            input='test\ntest\ntest',
-            obj=self.config
-        )
-        self.assertIn(
-            'The node\'s SSH credentials were updated correctly',
-            result.output
-        )
-
-        result = self.runner.invoke(
-            node,
-            ['change-ssh', str(ObjectId())],
-            input='test\ntest\ntest',
-            obj=self.config
-        )
-        self.assertIn('Unable to change SSH credentials', result.output)
 
     def test_update(self):
         result = self.runner.invoke(

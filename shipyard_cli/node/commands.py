@@ -74,24 +74,22 @@ def inspect(service, key):
 @click.pass_obj
 @click.option('--cpu', type=str, help='The node\'s CPU model.')
 @click.option('--cpu-arch', type=str, help='The node\'s CPU architecture.')
-@click.option('--cpu-cores', type=int, help='The node\'s CPU core count.')
 @click.option('--cpu-freq', type=int, help='The node\'s CPU frequency in MHz.')
 @click.option('--ram', type=int, help='The node\'s RAM capacity.')
 @click.option('--device', type=str, multiple=True, help='A device present in the node.')
 @click.argument('name', type=str)
 @click.argument('address', type=IPaddress())
-def add(service, name, address, cpu, cpu_arch, cpu_cores, cpu_freq, ram, device):
+@click.argument('cpu-cores', type=int)
+def add(service, name, address, cpu_cores, cpu, cpu_arch, cpu_freq, ram, device):
     """Add a new node."""
 
-    user = click.prompt('User', type=str)
-    password = click.prompt('Password', type=str,
+    ssh_user = click.prompt('User', type=str)
+    ssh_pass = click.prompt('Password', type=str,
                             hide_input=True, confirmation_prompt=True)
     try:
         node = Node.Schema().load({
             'name': name,
             'ip': address,
-            'ssh_user': user,
-            'ssh_pass': password,
             'cpu': cpu,
             'cpu_arch': cpu_arch,
             'cpu_cores': cpu_cores,
@@ -99,36 +97,10 @@ def add(service, name, address, cpu, cpu_arch, cpu_cores, cpu_freq, ram, device)
             'ram': ram,
         })
         node.devices = list(d for d in device)
-        new_id = service.create(node)
+        new_id = service.create(node, ssh_user, ssh_pass)
         click.echo(f'Added new node with ID {new_id}.')
     except Exception as e:
         click.echo('Unable to add new node:\n' + str(e))
-
-
-@node.command()
-@click.pass_obj
-@click.argument('key', type=str)
-def change_ssh(service, key):
-    """
-    Modify the SSH credentials.
-
-    The node is identified by a given KEY, which can be either the node's ID or
-    its name.
-    """
-
-    try:
-        user = click.prompt('New user', type=str)
-        password = click.prompt(
-            'New password',
-            type=str,
-            hide_input=True,
-            confirmation_prompt=True
-        )
-        new_values = {'ssh_user': user, 'ssh_pass': password}
-        service.update(key, new_values)
-        click.echo('The node\'s SSH credentials were updated correctly.')
-    except Exception as e:
-        click.echo('Unable to change SSH credentials:\n' + str(e))
 
 
 @node.command()

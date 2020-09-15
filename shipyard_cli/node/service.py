@@ -40,11 +40,12 @@ class NodeService():
         else:
             raise StatusError(response.json()['error'])
 
-    def create(self, node: Node) -> str:
+    def create(self, node: Node, ssh_user: str, ssh_pass: str) -> str:
         """Create a new node."""
 
         response = requests.post(
             self.base_url + '/nodes',
+            auth=(ssh_user, ssh_pass),
             json=Node.Schema(exclude=['_id', 'tasks']).dump(node)
         )
         if response.status_code == HTTPStatus.OK:

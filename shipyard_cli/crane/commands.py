@@ -32,9 +32,10 @@ def deploy(service, node, task):
 
 @crane.command()
 @click.pass_obj
+@click.confirmation_option('-y', '--yes', prompt='Are you sure you want to remove the task from the node?')
 @click.argument('node', type=str)
 @click.argument('task', type=str)
-def remove(service, node, task):
+def rm(service, node, task):
     """
     Remove task from node.
 

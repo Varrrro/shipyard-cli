@@ -20,7 +20,6 @@ class MockService():
             'name': 'Test1',
             'ip': '1.1.1.1',
             'ssh_user': 'Test1',
-            'ssh_pass': 'Test1',
             'tasks': [
                 {
                     '_id': ObjectId(),
@@ -40,7 +39,6 @@ class MockService():
             'name': 'Test2',
             'ip': '2.2.2.2',
             'ssh_user': 'Test2',
-            'ssh_pass': 'Test2'
         }
     ], many=True)
     test_tasks = Task.Schema().load([
@@ -106,11 +104,12 @@ class TestCommands(unittest.TestCase):
         )
         self.assertIn('Unable to deploy task to node', result.output)
 
-    def test_remove(self):
+    def test_rm(self):
         result = self.runner.invoke(
             crane,
-            ['remove', str(MockService.test_nodes[0]._id),
+            ['rm', str(MockService.test_nodes[0]._id),
              str(MockService.test_tasks[0]._id)],
+            input='y',
             obj=self.config
         )
         self.assertIn(
@@ -118,7 +117,8 @@ class TestCommands(unittest.TestCase):
 
         result = self.runner.invoke(
             crane,
-            ['remove', str(ObjectId()), str(ObjectId())],
+            ['rm', str(ObjectId()), str(ObjectId())],
+            input='y',
             obj=self.config
         )
         self.assertIn('Unable to remove task from node', result.output)

@@ -1,5 +1,6 @@
-# :computer: CLI client for the Shipyard system
+# CLI client for the Shipyard system
 
+[![PyPI version](https://badge.fury.io/py/shipyard-cli.svg)](https://badge.fury.io/py/shipyard-cli)
 [![codecov](https://codecov.io/gh/Varrrro/shipyard-cli/branch/master/graph/badge.svg?token=LTSBFD24GQ)](https://codecov.io/gh/Varrrro/shipyard-cli)
 
 This command-line application lets you interact easily with a Shipyard server

@@ -1,3 +1,7 @@
+"""
+Application configuration logic.
+"""
+
 import json
 
 default_config_file = 'config.json'

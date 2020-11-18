@@ -1,12 +1,14 @@
+"""
+The task model.
+"""
+
 from dataclasses import field
-from typing import List, Optional, ClassVar, Type
+from typing import ClassVar, List, Optional, Type
 
 from marshmallow import Schema
-from marshmallow_dataclass import dataclass, NewType
-
+from marshmallow_dataclass import NewType, dataclass
 from shipyard_cli.fields import ObjectId
 from shipyard_cli.validators import validate_devices
-
 
 objectid = NewType('objectid', str, ObjectId)
 

@@ -1,10 +1,16 @@
-import socket
+"""
+Custom click types for specific inputs.
+"""
+
 import json
+import socket
 
 import click
 
 
 class IPaddress(click.ParamType):
+    """An IPv4 address."""
+
     name = 'IP'
 
     def convert(self, value, param, ctx):
@@ -16,6 +22,8 @@ class IPaddress(click.ParamType):
 
 
 class JSONdocument(click.ParamType):
+    """A JSON document."""
+
     name = 'JSON'
 
     def convert(self, value, param, ctx):

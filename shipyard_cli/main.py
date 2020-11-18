@@ -1,9 +1,13 @@
+"""
+The application's entrypoint.
+"""
+
 import click
 
 from shipyard_cli.config import load_config
+from shipyard_cli.crane.commands import crane
 from shipyard_cli.node.commands import node
 from shipyard_cli.task.commands import task
-from shipyard_cli.crane.commands import crane
 
 
 @click.group()

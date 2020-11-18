@@ -1,9 +1,12 @@
-import requests
-import bson
+"""
+Business logic for node related operations.
+"""
 
-from typing import List
 from http import HTTPStatus
+from typing import List
 
+import bson
+import requests
 from shipyard_cli.errors import StatusError
 from shipyard_cli.node.model import Node
 

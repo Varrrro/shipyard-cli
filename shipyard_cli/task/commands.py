@@ -1,10 +1,12 @@
+"""
+Commands for task related operations.
+"""
+
 import click
-
 from marshmallow import ValidationError
-
-from shipyard_cli.types import JSONdocument
-from shipyard_cli.task.service import TaskService
 from shipyard_cli.task.model import Task
+from shipyard_cli.task.service import TaskService
+from shipyard_cli.types import JSONdocument
 
 
 @click.group()

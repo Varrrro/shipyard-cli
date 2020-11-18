@@ -1,11 +1,13 @@
+"""
+Commands for node related operations.
+"""
+
 import click
-
 from marshmallow import ValidationError
-
-from shipyard_cli.types import IPaddress, JSONdocument
 from shipyard_cli.errors import StatusError
-from shipyard_cli.node.service import NodeService
 from shipyard_cli.node.model import Node
+from shipyard_cli.node.service import NodeService
+from shipyard_cli.types import IPaddress, JSONdocument
 
 
 @click.group()

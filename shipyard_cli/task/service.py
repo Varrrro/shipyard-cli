@@ -1,13 +1,15 @@
+"""
+Business logic for task related operations.
+"""
+
 import io
-import os
 import json
-
-import requests
-import bson
-
-from typing import List
+import os
 from http import HTTPStatus
+from typing import List
 
+import bson
+import requests
 from shipyard_cli.errors import StatusError
 from shipyard_cli.task.model import Task
 

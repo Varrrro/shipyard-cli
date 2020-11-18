@@ -1,7 +1,8 @@
 name: Build and publish package to PyPI
 
 on:
-  release: [publish]
+  release: 
+    types: [published]
 
 jobs:
 
@@ -28,4 +29,3 @@ jobs:
       run: |
         python setup.py sdist bdist_wheel
         python -m twine upload dist/*
-        
